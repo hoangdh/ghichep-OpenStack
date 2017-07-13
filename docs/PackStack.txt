@@ -1,0 +1,16 @@
+Các lỗi gặp phải trong quá trình cài đặt OpenStack bằng PackStack
+
+- Lỗi client socket is closed, gặp phải khi ta chạy packstack trên máy ảo của kvm
+
+Cách fix: Tại node compute sửa cpu_mode=none trong file /etc/nova/nova.conf
+Reset lại service openstack-nova-compute
+
+- Lỗi không kết nối được tới console, gặp phải khi chạy máy ảo với nhiều node compute
+
+Cách fix: Trên node COM, hay hostname trong dòng dưới ở file /etc/nova/nova.conf bằng IP của chính máy compute đó.
+vncserver_proxyclient_address=192.168.20.22
+Restart lại dịch vụ openstack-nova-compute
+
+- Lỗi máy ảo không nhận metadata
+Sửa file /etc/neutron/dhcp_agent.ini trên Controller node và khởi động lại các service của neutron trên Controller node.
+enable_isolated_metadata = True
